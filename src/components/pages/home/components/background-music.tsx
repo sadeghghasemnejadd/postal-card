@@ -7,40 +7,47 @@ const BACKGROUND_TRACK = "/audio/background.mp3";
 export function BackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const startPlayback = useCallback(async () => {
+  const startPlayback = useCallback(() => {
     const audio = audioRef.current;
 
     if (!audio) {
       return;
     }
 
-    try {
-      await audio.play();
-    } catch {
-      // Most browsers require the first audible playback to follow a user interaction.
-      // The one-time interaction listeners below retry playback when that happens.
+    audio.volume = 0.3;
+    audio.muted = false;
+
+    // Calling play() directly from the first real interaction is required for
+    // audible media on mobile browsers. There is deliberately no extra UI.
+    const playback = audio.play();
+
+    if (playback) {
+      void playback.catch(() => {
+        // A device-level mute setting or a browser setting can still block sound.
+      });
     }
   }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
-    const playAfterInteraction = () => {
-      void startPlayback();
-    };
 
-    if (audio) {
-      audio.volume = 0.3;
+    if (!audio) {
+      return;
     }
 
-    void startPlayback();
-    window.addEventListener("pointerdown", playAfterInteraction, { once: true, passive: true });
-    window.addEventListener("keydown", playAfterInteraction, { once: true });
+    audio.volume = 0.3;
+
+    const interactionEvent = "PointerEvent" in window ? "pointerdown" : "touchstart";
+    const playAfterFirstInteraction = () => startPlayback();
+
+    window.addEventListener(interactionEvent, playAfterFirstInteraction, { once: true });
+    window.addEventListener("keydown", playAfterFirstInteraction, { once: true });
 
     return () => {
-      window.removeEventListener("pointerdown", playAfterInteraction);
-      window.removeEventListener("keydown", playAfterInteraction);
+      window.removeEventListener(interactionEvent, playAfterFirstInteraction);
+      window.removeEventListener("keydown", playAfterFirstInteraction);
     };
   }, [startPlayback]);
 
-  return <audio autoPlay loop preload="metadata" ref={audioRef} src={BACKGROUND_TRACK} />;
+  return <audio loop preload="auto" ref={audioRef} src={BACKGROUND_TRACK} />;
 }

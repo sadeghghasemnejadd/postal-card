@@ -8,6 +8,7 @@ import mobileBackground from "@/docs/assets/pearl-bg-mobile.webp";
 import { cn } from "@/lib/utils";
 
 import type { InvitationEvent } from "../types";
+import { playBackgroundMusic } from "./background-music";
 import { Countdown } from "./countdown";
 import { InvitationActions } from "./invitation-actions";
 
@@ -20,6 +21,10 @@ const cardFaceClass =
 
 export function InvitationHero({ invitation }: InvitationHeroProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const openInvitation = () => {
+    playBackgroundMusic();
+    setIsOpen(true);
+  };
 
   return (
     <section
@@ -94,7 +99,7 @@ export function InvitationHero({ invitation }: InvitationHeroProps) {
               "group grid cursor-pointer place-items-center bg-gradient-to-br from-[#edcbc7] via-[#fff9ef] to-[#efd0c9] p-6 text-center text-[#69494a] shadow-[18px_26px_48px_rgba(105,73,74,0.28)] outline-none focus-visible:ring-4 focus-visible:ring-[#d19a91]/55"
             )}
             disabled={isOpen}
-            onClick={() => setIsOpen(true)}
+            onClick={openInvitation}
             type="button"
           >
             <span aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,.92),transparent_34%),linear-gradient(115deg,transparent_0%,rgba(255,255,255,.3)_42%,transparent_58%)] opacity-80" />
@@ -198,7 +203,7 @@ export function InvitationHero({ invitation }: InvitationHeroProps) {
       {!isOpen && (
         <button
           className="absolute bottom-5 left-1/2 inline-flex -translate-x-1/2 items-center gap-2 border-0 bg-transparent text-[.64rem] text-[#987573] animate-bounce [animation-duration:2.3s] focus-visible:rounded-full focus-visible:outline-2 focus-visible:outline-[#9d6663] focus-visible:outline-offset-5"
-          onClick={() => setIsOpen(true)}
+          onClick={openInvitation}
           type="button"
         >
           <span>برای باز کردن کارت، لمس کنید</span>

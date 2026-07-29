@@ -7,6 +7,7 @@ export interface InvitationEvent {
   weekday: string;
   day: string;
   monthAndYear: string;
+  eventTime: string;
 }
 
 export interface CountdownValues {

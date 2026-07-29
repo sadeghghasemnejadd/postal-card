@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "محمد صادق و فاطمه | کارت دعوت عقد",
     description:
-      "کارت دعوت مراسم عقد محمد صادق قاسم‌نژاد و فاطمه نورسیده در ۵ شهریور ۱۴۰۵.",
+      "کارت دعوت مراسم عقد محمد صادق و فاطمه در ۵ شهریور ۱۴۰۵.",
   };
 }
 

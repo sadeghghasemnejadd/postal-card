@@ -1,32 +1,24 @@
-import { InvitationDetails } from "./components/invitation-details";
 import { InvitationHero } from "./components/invitation-hero";
+import { BackgroundMusic } from "./components/background-music";
 import type { InvitationEvent } from "./types";
 
-import styles from "./home.module.css";
-
 const invitation: InvitationEvent = {
-  brideName: "فاطمه نورسیده",
-  groomName: "محمد صادق قاسم‌نژاد",
+  brideName: "فاطمه",
+  groomName: "محمد صادق",
   eventDate: "2026-08-27T00:00:00+03:30",
   calendarDate: "20260827",
   persianDate: "۱۴۰۵/۰۶/۰۵",
   weekday: "پنجشنبه",
   day: "۵",
   monthAndYear: "شهریور ۱۴۰۵",
+  eventTime: "از ۴ عصر تا پاسی از شب",
 };
 
 export default async function HomeContainer() {
   return (
-    <main className={styles.invitationPage}>
+    <main className="overflow-x-hidden bg-[#fff7ee] font-[Vazirmatn,Tahoma,Arial,sans-serif] text-[#69494a]">
       <InvitationHero invitation={invitation} />
-      <InvitationDetails invitation={invitation} />
-      <footer className={styles.invitationFooter}>
-        <span>{invitation.persianDate}</span>
-        <i aria-hidden="true">♥</i>
-        <span>
-          {invitation.groomName} و {invitation.brideName}
-        </span>
-      </footer>
+      <BackgroundMusic />
     </main>
   );
 }

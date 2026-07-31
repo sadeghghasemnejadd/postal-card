@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -84,22 +85,41 @@ export function EntryEnvelope({ children }: EntryEnvelopeProps) {
           <div aria-hidden="true" className={styles.glowOne} />
           <div aria-hidden="true" className={styles.glowTwo} />
 
+          <div aria-hidden="true" className={styles.sparkles}>
+            <i />
+            <i />
+            <i />
+            <i />
+            <i />
+          </div>
+
           <header className={styles.intro}>
             <span aria-hidden="true" className={styles.introLine} />
-            <p>یک دعوتِ عاشقانه برای شما</p>
-            <span aria-hidden="true" className={styles.introStar}>
-              ✦
+            <span className={styles.introKicker}>یک دعوتِ عاشقانه</span>
+            <span className={styles.introSubtext}>
+              پاکت را باز کنید و مهمان قصه‌ی ما شوید
             </span>
           </header>
 
           <button
-            aria-label="باز کردن پاکت دعوت‌نامه"
+            aria-label="یک نامه‌ی ویژه برای شما رسیده؛ باز کردن پاکت دعوت‌نامه"
             className={styles.envelopeButton}
             disabled={isOpening}
             onClick={openEnvelope}
             type="button"
           >
             <span aria-hidden="true" className={styles.floorShadow} />
+
+            <Image
+              alt=""
+              aria-hidden="true"
+              className={styles.dove}
+              height={1254}
+              priority
+              sizes="(max-width: 640px) 44vw, 290px"
+              src="/images/messenger-dove.png"
+              width={1254}
+            />
 
             <span className={styles.envelope}>
               <span aria-hidden="true" className={styles.envelopeBack} />
@@ -131,6 +151,10 @@ export function EntryEnvelope({ children }: EntryEnvelopeProps) {
               <span aria-hidden="true" className={styles.bottomFold} />
               <span aria-hidden="true" className={styles.foldShine} />
 
+              <span aria-hidden="true" className={styles.envelopeMessage}>
+                یک نامه‌ی ویژه برای شما رسیده
+              </span>
+
               <span aria-hidden="true" className={styles.botanical}>
                 <span className={styles.botanicalStem} />
                 <i className={styles.leafOne} />
@@ -143,12 +167,14 @@ export function EntryEnvelope({ children }: EntryEnvelopeProps) {
 
               <span aria-hidden="true" className={styles.seal}>
                 <span className={styles.sealHalo} />
+                <span className={styles.sealPulse} />
                 <span className={styles.sealRing} />
-                <span className={styles.sealEmboss}>
-                  <i className={styles.embossStem} />
-                  <i className={styles.embossLeafLeft} />
-                  <i className={styles.embossLeafRight} />
-                </span>
+                <span className={styles.sealLabel}>باز کن</span>
+              </span>
+
+              <span aria-hidden="true" className={styles.postmark}>
+                <i>با عشق</i>
+                <b>برای شما</b>
               </span>
             </span>
           </button>
@@ -159,8 +185,19 @@ export function EntryEnvelope({ children }: EntryEnvelopeProps) {
             onClick={openEnvelope}
             type="button"
           >
-            <span>{isOpening ? "در حال باز شدن..." : "برای باز کردن لمس کنید"}</span>
-            <i aria-hidden="true">↑</i>
+            <span aria-hidden="true" className={styles.hintIcon}>
+              <svg fill="none" viewBox="0 0 24 24">
+                <path d="M12 2v5M5.8 4.8l3.5 3.5M18.2 4.8l-3.5 3.5" />
+                <path d="M8.8 13.7V11a1.7 1.7 0 0 1 3.4 0v2-5a1.7 1.7 0 0 1 3.4 0v5.2-2.4a1.7 1.7 0 0 1 3.4 0v4.4c0 3.8-2.3 6.3-6 6.3h-.5a5.8 5.8 0 0 1-4.4-2l-2.7-3.2a1.7 1.7 0 0 1 2.5-2.3l1.9 1.7Z" />
+              </svg>
+            </span>
+            <span className={styles.hintCopy}>
+              <b>{isOpening ? "در حال باز شدن..." : "پاکت را باز کنید"}</b>
+              {!isOpening && <small>برای مشاهده دعوت‌نامه لمس کنید</small>}
+            </span>
+            <span aria-hidden="true" className={styles.hintArrow}>
+              ←
+            </span>
           </button>
         </section>
       )}

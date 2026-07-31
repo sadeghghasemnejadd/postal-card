@@ -179,26 +179,6 @@ export function EntryEnvelope({ children }: EntryEnvelopeProps) {
             </span>
           </button>
 
-          <button
-            className={styles.openHint}
-            disabled={isOpening}
-            onClick={openEnvelope}
-            type="button"
-          >
-            <span aria-hidden="true" className={styles.hintIcon}>
-              <svg fill="none" viewBox="0 0 24 24">
-                <path d="M12 2v5M5.8 4.8l3.5 3.5M18.2 4.8l-3.5 3.5" />
-                <path d="M8.8 13.7V11a1.7 1.7 0 0 1 3.4 0v2-5a1.7 1.7 0 0 1 3.4 0v5.2-2.4a1.7 1.7 0 0 1 3.4 0v4.4c0 3.8-2.3 6.3-6 6.3h-.5a5.8 5.8 0 0 1-4.4-2l-2.7-3.2a1.7 1.7 0 0 1 2.5-2.3l1.9 1.7Z" />
-              </svg>
-            </span>
-            <span className={styles.hintCopy}>
-              <b>{isOpening ? "در حال باز شدن..." : "پاکت را باز کنید"}</b>
-              {!isOpening && <small>برای مشاهده دعوت‌نامه لمس کنید</small>}
-            </span>
-            <span aria-hidden="true" className={styles.hintArrow}>
-              ←
-            </span>
-          </button>
         </section>
       )}
     </>

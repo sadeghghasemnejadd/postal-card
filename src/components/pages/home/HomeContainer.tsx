@@ -1,5 +1,6 @@
-import { InvitationHero } from "./components/invitation-hero";
 import { BackgroundMusic } from "./components/background-music";
+import { EntryEnvelope } from "./components/entry-envelope";
+import { InvitationContent } from "./components/invitation-content";
 import type { InvitationEvent } from "./types";
 
 const invitation: InvitationEvent = {
@@ -17,7 +18,9 @@ const invitation: InvitationEvent = {
 export default async function HomeContainer() {
   return (
     <main className="overflow-x-hidden bg-[#fff7ee] font-[Vazirmatn,Tahoma,Arial,sans-serif] text-[#69494a]">
-      <InvitationHero invitation={invitation} />
+      <EntryEnvelope>
+        <InvitationContent invitation={invitation} />
+      </EntryEnvelope>
       <BackgroundMusic />
     </main>
   );

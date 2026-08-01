@@ -1,0 +1,953 @@
+@font-face {
+  font-family: "Vazirmatn";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300 600;
+  src: url("/invitation/fonts/vazirmatn-persian.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Gulzar";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/invitation/fonts/gulzar-display.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Nastaliq";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url("/invitation/fonts/noto-nastaliq-display.woff2") format("woff2");
+}
+
+.page {
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: #6c513f;
+  background: #f9f0e0;
+  direction: rtl;
+  font-family: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif;
+}
+
+.page main {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.invitationContent {
+  position: relative;
+  width: 450px;
+  margin: 0 auto;
+  direction: ltr;
+}
+
+.canvas {
+  position: relative;
+  width: 450px;
+  margin: 0 auto;
+  overflow: visible;
+  background: #f9f0e0;
+  direction: rtl;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 1.4s ease,
+    transform 1.7s cubic-bezier(0.2, 0.75, 0.15, 1);
+}
+
+.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.headingRow {
+  position: absolute;
+  z-index: 8;
+  top: 27px;
+  left: -55px;
+  display: grid;
+  width: 560px;
+  grid-template-columns: 79px auto 78px;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: #a67d2b;
+  direction: ltr;
+}
+
+.headingRow img {
+  width: 79px;
+  height: 41px;
+  object-fit: contain;
+}
+
+.headingRow h2 {
+  margin: 0;
+  font-family: "SacredScript", cursive;
+  font-size: 41px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.hero {
+  height: 1240px;
+  isolation: isolate;
+}
+
+.heroFilm {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 450px;
+  height: 762px;
+  overflow: hidden;
+  background: #351018;
+}
+
+.heroFilm video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(28 8 13 / 22%) 0%, transparent 30%),
+    linear-gradient(180deg, transparent 58%, rgb(39 10 17 / 78%) 100%);
+}
+
+.heroIntro {
+  position: absolute;
+  z-index: 5;
+  inset: 0 0 auto;
+  height: 676px;
+  color: #a67d2b;
+  text-align: center;
+}
+
+.heroIntro > :first-child {
+  position: absolute;
+  top: 154px;
+  left: -55px;
+  width: 560px;
+}
+
+.heroIntro > :nth-child(2) {
+  position: absolute;
+  top: 284px;
+  left: -55px;
+  width: 560px;
+}
+
+.scriptTitle {
+  margin: 0;
+  font-family: "SacredScript", cursive;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 0.8;
+}
+
+.heroDate {
+  display: block;
+  margin-top: 14px;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.heroIntro h1 {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: "SacredNames", cursive;
+  font-size: 78px;
+  font-weight: 400;
+  line-height: 0.72;
+}
+
+.heroIntro h1 i {
+  margin: -4px 0 -2px;
+  color: #a07b33;
+  font-family: "SacredScript", cursive;
+  font-size: 40px;
+  font-style: normal;
+  line-height: 0.7;
+}
+
+.heroLeft,
+.heroRight,
+.heroBackdrop,
+.scrollFlourish {
+  position: absolute;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.heroLeft {
+  z-index: 4;
+  top: 566px;
+  left: -16px;
+  width: 224px;
+  height: 343px;
+  animation: botanical-left 7s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.heroRight {
+  z-index: 4;
+  top: 547px;
+  left: 230px;
+  width: 236px;
+  height: 359px;
+  animation: botanical-right 7.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.heroBackdrop {
+  z-index: 1;
+  top: 753px;
+  /* Centers the visible parchment panel, not merely the image bounds. */
+  left: calc(50% - 235px);
+  width: 744px;
+  height: 487px;
+}
+
+.scrollFlourish {
+  z-index: 3;
+  top: 813px;
+  left: 84px;
+  width: 283px;
+  height: 86px;
+}
+
+.heroMessage {
+  position: absolute;
+  z-index: 6;
+  top: 891px;
+  left: -55px;
+  width: 560px;
+  color: #a67d2b;
+  text-align: center;
+}
+
+.heroMessage > p {
+  margin: 0;
+  font-family: "SacredScript", cursive;
+  font-size: 41px;
+  line-height: 1.03;
+}
+
+.heroMessage > div {
+  display: flex;
+  width: 307px;
+  margin: 38px auto 0;
+  flex-direction: column;
+  gap: 4px;
+  color: #6a5140;
+  font-family: "SacredBody", Georgia, serif;
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.heroMessage strong {
+  font-weight: 300;
+}
+
+.countdownSection {
+  height: 257px;
+}
+
+.countdownSection > h2 {
+  position: absolute;
+  z-index: 2;
+  top: 20px;
+  left: -55px;
+  width: 560px;
+  margin: 0;
+  color: #a67d2b;
+  font-family: "SacredScript", cursive;
+  font-size: 41px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.countdown {
+  position: absolute;
+  z-index: 3;
+  top: 96px;
+  left: -10px;
+  display: flex;
+  width: 470px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+}
+
+.countdownFragment {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.timeBlock {
+  min-width: 76px;
+  text-align: center;
+}
+
+.timeBlock strong {
+  display: block;
+  color: transparent;
+  background: linear-gradient(
+    105deg,
+    #b48c3d 0%,
+    #b48c3d 25%,
+    #cda95a 46%,
+    #d8ba72 52%,
+    #cda95a 58%,
+    #b48c3d 75%,
+    #b48c3d 100%
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 1.2;
+  animation: candle-shimmer 4.5s ease-in-out infinite;
+}
+
+.timeBlock span {
+  display: block;
+  margin-top: 8px;
+  color: #b48c3d;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 19px;
+  opacity: 0.85;
+}
+
+.separator {
+  margin-top: 5px;
+  color: #b48c3d;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 52px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+.scheduleSection {
+  height: 570px;
+  overflow: hidden;
+}
+
+.scheduleTop,
+.scheduleBottom {
+  position: absolute;
+  z-index: 0;
+  left: -147px;
+  width: 744px;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+.scheduleTop {
+  top: -20px;
+  height: 346px;
+}
+
+.scheduleBottom {
+  top: 321px;
+  height: 259px;
+}
+
+.schedule {
+  position: absolute;
+  z-index: 5;
+  top: 126px;
+  left: 72px;
+  width: 306px;
+}
+
+.scheduleRow {
+  display: grid;
+  min-height: 77px;
+  grid-template-columns: 92px 48px 1fr;
+  align-items: center;
+}
+
+.scheduleRow time {
+  color: #846f61;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  text-align: left;
+}
+
+.scheduleRow p {
+  margin: 0;
+  color: #6c513f;
+  font-family: "SacredBody", Georgia, serif;
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.timelineMark {
+  position: relative;
+  display: grid;
+  height: 77px;
+  place-items: center;
+}
+
+.timelineMark::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(#c9a352, #8b6e39);
+  content: "";
+}
+
+.timelineMark img {
+  z-index: 2;
+  width: 27px;
+  height: 25px;
+  object-fit: contain;
+}
+
+.locationSection {
+  height: 427px;
+}
+
+.locationDecor {
+  position: absolute;
+  z-index: 3;
+  top: 81px;
+  left: 177px;
+  width: 96px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.locationCopy {
+  position: absolute;
+  z-index: 4;
+  top: 109px;
+  left: 35px;
+  width: 380px;
+  color: #6c513f;
+  text-align: center;
+}
+
+.locationCopy h3 {
+  margin: 0;
+  font-family: "SacredBody", Georgia, serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.locationCopy p {
+  width: 308px;
+  margin: 3px auto 0;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.locationPhoto {
+  position: absolute;
+  z-index: 2;
+  top: 174px;
+  left: 35px;
+  width: 380px;
+  height: 253px;
+  object-fit: cover;
+}
+
+.mapSection {
+  height: 343px;
+}
+
+.mapCircle {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  left: 54px;
+  width: 341px;
+  height: 341px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+  color: #6c513f;
+  background: #eadcc3;
+  text-align: center;
+  text-decoration: none;
+}
+
+.mapGrid {
+  position: absolute;
+  inset: 7px;
+  border-radius: 12px;
+  background:
+    linear-gradient(32deg, transparent 46%, rgb(180 140 61 / 16%) 47% 49%, transparent 50%),
+    linear-gradient(148deg, transparent 46%, rgb(180 140 61 / 13%) 47% 49%, transparent 50%),
+    radial-gradient(circle at 50% 50%, #fffaf0, #eadabb);
+  background-size: 70px 70px, 82px 82px, auto;
+  transition: transform 700ms ease;
+}
+
+.mapCircle:hover .mapGrid {
+  transform: scale(1.05);
+}
+
+.mapPin {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border: 1px solid rgb(180 140 61 / 55%);
+  border-radius: 50% 50% 50% 0;
+  background: #5a0f1b;
+  box-shadow: 0 10px 25px rgb(90 15 27 / 20%);
+  transform: rotate(-45deg);
+}
+
+.mapPin i {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f9f0e0;
+  border-radius: 50%;
+}
+
+.mapCircle strong,
+.mapCircle small {
+  position: relative;
+  z-index: 2;
+}
+
+.mapCircle strong {
+  margin-top: 24px;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.mapCircle small {
+  margin-top: 7px;
+  color: #a67d2b;
+  font-family: "SacredUi", Arial, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mapCircle > img {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.sectionTop,
+.sectionBottom {
+  position: absolute;
+  z-index: 5;
+  left: 130px;
+  width: 190px;
+  height: 42px;
+  object-fit: fill;
+}
+
+.sectionTop {
+  top: -26px;
+}
+
+.sectionBottom {
+  bottom: -27px;
+}
+
+.sequenceLayer {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  pointer-events: none;
+}
+
+.envelopeGate {
+  position: fixed;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  align-items: center;
+  justify-content: center;
+  background: #f9f0e0;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity 1.4s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelopeGate > img {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  max-height: 100svh;
+  object-fit: contain;
+}
+
+.gateHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tapPrompt {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  color: rgb(140 100 60 / 75%);
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  animation:
+    tap-in 1.2s 0.8s both,
+    tap-pulse 2.4s 1.6s ease-in-out infinite;
+}
+
+.tapPrompt i {
+  width: 10px;
+  height: 10px;
+  border-top: 1.5px solid rgb(140 100 60 / 60%);
+  border-right: 1.5px solid rgb(140 100 60 / 60%);
+  transform: rotate(-45deg);
+}
+
+.introVideoLayer {
+  position: fixed;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f0e0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+.introVideoLayer video {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  max-height: 100svh;
+  object-fit: contain;
+}
+
+.videoVisible {
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.videoFading {
+  z-index: 3;
+  opacity: 0;
+  transition-duration: 1.4s;
+}
+
+.audioButton {
+  position: fixed;
+  z-index: 1000;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  color: white;
+  background: #5a0f1b;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 18%);
+  cursor: pointer;
+}
+
+.pauseIcon {
+  display: flex;
+  gap: 5px;
+}
+
+.pauseIcon i {
+  width: 4px;
+  height: 20px;
+  border-radius: 1px;
+  background: white;
+}
+
+.playIcon {
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid white;
+}
+
+@keyframes candle-shimmer {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes botanical-left {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-4px);
+  }
+}
+
+@keyframes botanical-right {
+  0%,
+  100% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(-2deg) translateY(-5px);
+  }
+}
+
+@keyframes closing-breathe {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.02) rotate(1deg);
+  }
+}
+
+@keyframes tap-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes tap-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    letter-spacing: 0.26em;
+  }
+  50% {
+    opacity: 1;
+    letter-spacing: 0.3em;
+  }
+}
+
+/*
+ * The reference invitation uses a 1200px desktop artboard with a centered
+ * 450px composition. Keeping that grid explicit prevents the layout from
+ * drifting on wide monitors while preserving the original narrow artwork.
+ */
+@media (max-width: 959px) {
+  .page main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .invitationContent {
+    flex: 0 0 450px;
+    left: auto;
+    margin: 0;
+    transform: scale(var(--invitation-scale, 1));
+    transform-origin: top center;
+    will-change: transform;
+  }
+
+  .canvas {
+    margin: 0;
+    transform: none;
+  }
+
+  .audioButton {
+    right: 14px;
+    bottom: 14px;
+    width: 54px;
+    height: 54px;
+  }
+
+}
+
+@media (min-width: 960px) {
+  .invitationContent {
+    width: 960px;
+    margin-inline: auto;
+  }
+
+  .heroIntro > :nth-child(2) {
+    top: 294px;
+  }
+
+  .heroIntro h1 {
+    font-size: 80px;
+  }
+
+  .heroMessage {
+    top: 899px;
+  }
+
+  .heroMessage > div {
+    margin-top: 25px;
+  }
+
+  .countdownSection > h2 {
+    top: 28px;
+  }
+
+  .scheduleSection .headingRow {
+    top: 45px;
+  }
+
+  .scheduleSection .headingRow img {
+    transform: translateY(9px);
+  }
+
+  .locationSection .headingRow {
+    top: 28px;
+  }
+
+  .envelopeGate > img,
+  .introVideoLayer video {
+    max-width: 450px;
+  }
+
+}
+
+@media (min-width: 960px) and (max-width: 1199px) {
+  .heroBackdrop {
+    top: 758px;
+    height: 479px;
+  }
+
+  .countdownSection {
+    height: 247px;
+  }
+
+  .locationSection {
+    height: 405px;
+    overflow: visible;
+  }
+}
+
+@media (min-width: 1200px) {
+  .invitationContent {
+    width: 1200px;
+  }
+
+  .canvas {
+    margin-right: 0;
+    margin-left: 375px;
+  }
+}
+
+.page,
+.page * {
+  font-family: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif !important;
+}
+
+.page :is(
+  .headingRow h2,
+  .scriptTitle,
+  .heroMessage > p,
+  .countdownSection > h2
+) {
+  font-family: "Gulzar", "Vazirmatn", serif !important;
+  font-weight: 400 !important;
+}
+
+.page .heroIntro h1,
+.page .heroIntro h1 span {
+  font-family: "Noto Nastaliq", "Vazirmatn", serif !important;
+  font-size: 78px;
+  font-weight: 400 !important;
+  line-height: 0.9;
+  letter-spacing: normal;
+}
+
+.heroIntro h1 i {
+  margin: -5px 0 -3px;
+  font-family: "Noto Nastaliq", "Vazirmatn", serif !important;
+  font-size: 36px;
+  font-weight: 400 !important;
+  line-height: 0.8;
+}
+
+.headingRow h2,
+.countdownSection > h2 {
+  line-height: 1.25;
+}
+
+.heroMessage > p {
+  font-size: 38px;
+  line-height: 1.12;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .revealed,
+  .heroLeft,
+  .heroRight,
+  .timeBlock strong,
+  .tapPrompt {
+    animation: none;
+    transition-duration: 1ms;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

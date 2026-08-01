@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
 import HomeContainer from "@/components/pages/home/HomeContainer";
+import { invitation } from "@/config/invitation";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "محمد صادق و فاطمه | کارت دعوت عقد",
+    title: `${invitation.brideName} و ${invitation.groomName} | دعوت‌نامه عقد`,
     description:
-      "کارت دعوت مراسم عقد محمد صادق و فاطمه در ۵ شهریور ۱۴۰۵.",
+      "در شبی سرشار از عشق، لبخند، دعا و خاطره‌های ماندگار، در آغاز زندگی مشترکمان کنار ما باشید.",
   };
 }
 

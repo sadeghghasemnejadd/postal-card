@@ -758,7 +758,7 @@
   font-size: 12px;
   pointer-events: none;
   transform: translateX(-50%);
-  animation: hint-in 900ms 0.5s backwards;
+  animation: hint-in 700ms 0.3s backwards;
   transition: opacity 450ms ease;
 }
 

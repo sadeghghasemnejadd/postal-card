@@ -21,6 +21,8 @@ const INTRO_VIDEO = `${MEDIA_ROOT}/opening-film.mp4`;
 const BACKGROUND_VIDEO = `${MEDIA_ROOT}/hero-swans.mp4`;
 const BACKGROUND_AUDIO = `${MEDIA_ROOT}/background-music.mp3`;
 const ARTBOARD_WIDTH = 450;
+const AUTO_SCROLL_SPEED = 48;
+const AUTO_SCROLL_DELAY = 3_500;
 const ARTBOARD_HEIGHT = 2_153;
 
 const ASSETS = {
@@ -457,6 +459,59 @@ export function InvitationExperience() {
     const autoStartTimer = window.setTimeout(startSequence, 5_000);
     return () => window.clearTimeout(autoStartTimer);
   }, [sequence, startSequence]);
+
+  useEffect(() => {
+    if (sequence !== "done") return;
+    if (!window.matchMedia("(max-width: 959px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const root = (document.scrollingElement ??
+      document.documentElement) as HTMLElement;
+    const previousBehavior = root.style.scrollBehavior;
+    const interruptEvents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+
+    let frame = 0;
+    let position = root.scrollTop;
+    let lastTime = 0;
+
+    const stop = () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(startTimer);
+      root.style.scrollBehavior = previousBehavior;
+      interruptEvents.forEach((eventName) =>
+        document.removeEventListener(eventName, stop),
+      );
+    };
+
+    const step = (time: number) => {
+      if (lastTime === 0) lastTime = time;
+      const elapsed = Math.min((time - lastTime) / 1_000, 0.1);
+      lastTime = time;
+
+      const limit = root.scrollHeight - root.clientHeight;
+      position = Math.min(position + AUTO_SCROLL_SPEED * elapsed, limit);
+      window.scrollTo(0, position);
+
+      if (position >= limit) {
+        stop();
+        return;
+      }
+
+      frame = window.requestAnimationFrame(step);
+    };
+
+    const startTimer = window.setTimeout(() => {
+      root.style.scrollBehavior = "auto";
+      position = root.scrollTop;
+      frame = window.requestAnimationFrame(step);
+    }, AUTO_SCROLL_DELAY);
+
+    interruptEvents.forEach((eventName) =>
+      document.addEventListener(eventName, stop, { passive: true }),
+    );
+
+    return stop;
+  }, [sequence]);
 
   useEffect(() => {
     if (sequence === "sealed") return;

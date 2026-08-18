@@ -365,7 +365,7 @@
 }
 
 .scheduleSection {
-  height: 362px;
+  height: 336px;
   overflow: hidden;
 }
 
@@ -385,67 +385,87 @@
 }
 
 .scheduleBottom {
-  top: 108px;
+  top: 77px;
   height: 259px;
 }
 
-.schedule {
+.scheduleFeature {
   position: absolute;
   z-index: 5;
-  top: 126px;
-  left: 72px;
-  width: 306px;
+  top: 108px;
+  left: 60px;
+  width: 330px;
+  text-align: center;
 }
 
-.scheduleRow {
-  display: grid;
-  min-height: 77px;
-  grid-template-columns: 92px 48px 1fr;
-  align-items: center;
+.featureMark {
+  display: block;
+  width: 34px;
+  margin: 0 auto;
 }
 
-.scheduleRow time {
-  color: #846f61;
-  font-family: "SacredNumbers", Georgia, serif;
-  font-size: 30px;
-  line-height: 1;
-  text-align: left;
-}
-
-.scheduleRow p {
-  margin: 0;
-  color: #6c513f;
-  font-family: "SacredBody", Georgia, serif;
-  font-size: 20px;
-  line-height: 1.1;
-}
-
-.timelineMark {
-  position: relative;
-  display: grid;
-  height: 77px;
-  place-items: center;
-}
-
-.timelineMark::before {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: linear-gradient(#c9a352, #8b6e39);
-  content: "";
-}
-
-.timelineMark img {
-  z-index: 2;
-  width: 27px;
-  height: 25px;
+.featureMark img {
+  display: block;
+  width: 34px;
+  height: 32px;
   object-fit: contain;
 }
 
+.featureTime {
+  display: block;
+  margin-top: 14px;
+  color: #b48c3d;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 46px;
+  line-height: 1.15;
+  text-shadow: 0 2px 14px rgb(180 140 61 / 30%);
+}
+
+.featureRule {
+  display: flex;
+  margin-top: 12px;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+}
+
+.featureRule::before,
+.featureRule::after {
+  width: 78px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(180 140 61 / 80%));
+  content: "";
+}
+
+.featureRule::after {
+  background: linear-gradient(270deg, transparent, rgb(180 140 61 / 80%));
+}
+
+.featureRule i {
+  width: 6px;
+  height: 6px;
+  background: #b48c3d;
+  transform: rotate(45deg);
+}
+
+.featureTitle {
+  margin: 13px 0 0;
+  color: #6c513f;
+  font-family: "SacredBody", Georgia, serif;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.featureNote {
+  margin: 5px 0 0;
+  color: #a67d2b;
+  font-size: 15px;
+  line-height: 1.3;
+  opacity: 0.9;
+}
+
 .locationSection {
-  height: 512px;
+  height: 320px;
 }
 
 .locationDecor {
@@ -461,17 +481,14 @@
 .locationCopy {
   position: absolute;
   z-index: 4;
-  top: 118px;
+  top: 120px;
   left: 35px;
-  display: flex;
   width: 380px;
-  flex-direction: column;
-  gap: 26px;
   color: #6c513f;
   text-align: center;
 }
 
-.placeCard h3 {
+.locationCopy h3 {
   display: flex;
   margin: 0;
   align-items: center;
@@ -479,43 +496,43 @@
   gap: 12px;
   color: #a67d2b;
   font-family: "SacredBody", Georgia, serif;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 300;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
-.placeCard h3::before,
-.placeCard h3::after {
-  width: 62px;
+.locationCopy h3::before,
+.locationCopy h3::after {
+  width: 46px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgb(180 140 61 / 75%));
+  background: linear-gradient(90deg, transparent, rgb(180 140 61 / 80%));
   content: "";
 }
 
-.placeCard h3::after {
-  background: linear-gradient(270deg, transparent, rgb(180 140 61 / 75%));
+.locationCopy h3::after {
+  background: linear-gradient(270deg, transparent, rgb(180 140 61 / 80%));
 }
 
-.placeCard p {
-  width: 318px;
-  margin: 2px auto 0;
+.locationCopy p {
+  width: 330px;
+  margin: 6px auto 0;
   font-size: 16px;
   line-height: 1.45;
 }
 
 .mapApps {
   display: flex;
-  margin-top: 13px;
-  gap: 22px;
+  margin-top: 20px;
+  gap: 26px;
   justify-content: center;
 }
 
 .mapApp {
   display: flex;
-  width: 74px;
+  width: 78px;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: #6c513f;
   text-decoration: none;
 }
@@ -523,20 +540,20 @@
 .mapAppLogo {
   position: relative;
   display: grid;
-  width: 52px;
-  height: 52px;
+  width: 58px;
+  height: 58px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgb(180 140 61 / 45%);
   border-radius: 50%;
   background: #fffaf0;
-  box-shadow: 0 4px 12px rgb(90 15 27 / 10%);
+  box-shadow: 0 5px 14px rgb(90 15 27 / 12%);
   transition: transform 300ms ease;
 }
 
 .mapAppLogo img {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
 }
 

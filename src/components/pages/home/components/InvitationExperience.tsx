@@ -21,7 +21,7 @@ const INTRO_VIDEO = `${MEDIA_ROOT}/opening-film.mp4`;
 const BACKGROUND_VIDEO = `${MEDIA_ROOT}/hero-swans.mp4`;
 const BACKGROUND_AUDIO = `${MEDIA_ROOT}/background-music.mp3`;
 const ARTBOARD_WIDTH = 450;
-const ARTBOARD_HEIGHT = 2_371;
+const ARTBOARD_HEIGHT = 2_153;
 
 const ASSETS = {
   heroBackdrop: `${IMAGE_ROOT}/hero-paper.png`,
@@ -47,7 +47,10 @@ const MAP_APPS = [
   { key: "balad", title: "بلد", logo: ASSETS.mapBalad },
 ] as const;
 
-const PLACES = [invitation.venue, invitation.office] as const;
+const MAP_LINKS = MAP_APPS.map((app) => ({
+  ...app,
+  href: invitation.venue.maps[app.key],
+}));
 
 const SPARKLES = Array.from({ length: 18 }, (_, index) => ({
   left: (index * 27 + (index % 4) * 7) % 100,
@@ -309,44 +312,18 @@ function ScheduleSection() {
         width={1680}
       />
       <SectionHeading>برنامه مراسم</SectionHeading>
-      <div className={styles.schedule}>
-        {invitation.schedule.map((item, index) => (
-          <Reveal className={styles.scheduleRow} delay={index * 90} key={item.time}>
-            <time>{item.time}</time>
-            <span className={styles.timelineMark}>
-              <Image alt="" height={1201} src={ASSETS.scheduleRose} width={1309} />
-            </span>
-            <p>{item.title}</p>
-          </Reveal>
-        ))}
-      </div>
+      <Reveal className={styles.scheduleFeature}>
+        <span className={styles.featureMark}>
+          <Image alt="" height={1201} src={ASSETS.scheduleRose} width={1309} />
+        </span>
+        <time className={styles.featureTime}>{invitation.schedule.time}</time>
+        <span className={styles.featureRule}>
+          <i />
+        </span>
+        <p className={styles.featureTitle}>{invitation.schedule.title}</p>
+        <p className={styles.featureNote}>{invitation.schedule.note}</p>
+      </Reveal>
     </section>
-  );
-}
-
-function PlaceCard({ place }: { place: (typeof PLACES)[number] }) {
-  return (
-    <div className={styles.placeCard}>
-      <h3>{place.label}</h3>
-      <p>{place.address}</p>
-      <div className={styles.mapApps}>
-        {MAP_APPS.map((app) => (
-          <a
-            aria-label={`مسیریابی ${place.label} با ${app.title}`}
-            className={styles.mapApp}
-            href={place.maps[app.key]}
-            key={app.key}
-            rel="noreferrer"
-            target="_blank"
-          >
-            <span className={styles.mapAppLogo}>
-              <Image alt="" height={64} src={app.logo} width={64} />
-            </span>
-            <small>{app.title}</small>
-          </a>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -362,9 +339,25 @@ function LocationSection() {
         width={384}
       />
       <Reveal className={styles.locationCopy}>
-        {PLACES.map((place) => (
-          <PlaceCard key={place.label} place={place} />
-        ))}
+        <h3>{invitation.venue.name}</h3>
+        <p>{invitation.venue.address}</p>
+        <div className={styles.mapApps}>
+          {MAP_LINKS.map((app) => (
+            <a
+              aria-label={`نمایش محل مراسم در ${app.title}`}
+              className={styles.mapApp}
+              href={app.href}
+              key={app.key}
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span className={styles.mapAppLogo}>
+                <Image alt="" height={64} src={app.logo} width={64} />
+              </span>
+              <small>{app.title}</small>
+            </a>
+          ))}
+        </div>
       </Reveal>
     </section>
   );

@@ -1,7 +1,7 @@
 export const invitation = {
   brideName: "فاطمه",
-  groomName: "صادق",
-  coupleTitle: "فاطمه و صادق",
+  groomName: "محمد صادق",
+  coupleTitle: "فاطمه و محمد صادق",
   displayDate: "۵ شهریور ۱۴۰۵",
   eventDate: "2026-08-27T16:00:00+03:30",
   intro: {
@@ -12,27 +12,20 @@ export const invitation = {
       "در شبی سرشار از عشق، لبخند، دعا و خاطره‌های ماندگار، در آغاز زندگی مشترکمان کنار ما باشید.",
   },
   venue: {
-    label: "باغ",
-    address: "شیراز، ویلاشهر پردیس (دریمه)، فرعی ۱۵، باغ فضل‌اله قاسم‌نژاد",
+    name: "باغ فضل‌اله قاسم‌نژاد",
+    address: "شیراز، ویلاشهر پردیس (دریمه)، فرعی ۱۵",
     maps: {
       google: "https://maps.app.goo.gl/FYSa7uQoukBt4GqD7",
-      balad: "https://balad.ir/directions/driving?destination=52.761721,29.597006",
-      neshan: "https://neshan.org/maps/routing/car/destination/29.597006,52.761721",
+      balad:
+        "https://balad.ir/location?latitude=29.597006&longitude=52.761721&zoom=16.5",
+      neshan: "https://neshan.org/maps/@29.597006,52.761721,17.0z",
     },
   },
-  office: {
-    label: "محضر",
-    address: "شیراز، معالی‌آباد، بلوار بهشت، نبش کوچه ۷، محضر شماره ۲۲۵",
-    maps: {
-      google: "https://maps.app.goo.gl/NEVBFVCM3VB4KCFv9",
-      balad: "https://balad.ir/directions/driving?destination=52.474722,29.689266",
-      neshan: "https://neshan.org/maps/routing/car/destination/29.689266,52.474722",
-    },
+  schedule: {
+    time: "۸ شب",
+    title: "آغاز مراسم در باغ",
+    note: "تا پاسی از شب",
   },
-  schedule: [
-    { title: "مراسم عقد در محضر", time: "۴ تا ۶" },
-    { title: "ادامه مراسم در باغ تا پاسی از شب", time: "۸ شب" },
-  ],
 } as const;
 
 export type InvitationConfig = typeof invitation;

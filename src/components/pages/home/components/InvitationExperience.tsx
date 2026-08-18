@@ -371,6 +371,7 @@ export function InvitationExperience() {
   const introVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const fadeTimerRef = useRef<number | null>(null);
+  const isAudioMutedByUserRef = useRef(false);
 
   useEffect(() => {
     if (sequence === "done") return;
@@ -457,13 +458,55 @@ export function InvitationExperience() {
     return () => window.clearTimeout(autoStartTimer);
   }, [sequence, startSequence]);
 
+  useEffect(() => {
+    if (sequence === "sealed") return;
+
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const gestureEvents = ["pointerdown", "touchend", "keydown"] as const;
+
+    const stopListening = () => {
+      gestureEvents.forEach((eventName) =>
+        document.removeEventListener(eventName, handleGesture),
+      );
+    };
+
+    const tryPlay = () => {
+      if (isAudioMutedByUserRef.current || !audio.paused) return;
+
+      void audio
+        .play()
+        .then(() => {
+          setIsAudioPlaying(true);
+          stopListening();
+        })
+        .catch(() => undefined);
+    };
+
+    function handleGesture(event: Event) {
+      const target = event.target as Element | null;
+      if (target?.closest("[data-audio-toggle]")) return;
+      tryPlay();
+    }
+
+    tryPlay();
+    gestureEvents.forEach((eventName) =>
+      document.addEventListener(eventName, handleGesture, { passive: true }),
+    );
+
+    return stopListening;
+  }, [sequence]);
+
   const toggleAudio = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     if (audio.paused) {
+      isAudioMutedByUserRef.current = false;
       void audio.play().then(() => setIsAudioPlaying(true)).catch(() => undefined);
     } else {
+      isAudioMutedByUserRef.current = true;
       audio.pause();
       setIsAudioPlaying(false);
     }
@@ -554,6 +597,7 @@ export function InvitationExperience() {
         <button
           aria-label={isAudioPlaying ? "توقف موسیقی پس‌زمینه" : "پخش موسیقی پس‌زمینه"}
           className={`${styles.audioButton} ${isAudioPlaying ? styles.audioPlaying : ""}`}
+          data-audio-toggle
           onClick={toggleAudio}
           type="button"
         >

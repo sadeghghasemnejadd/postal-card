@@ -15,7 +15,8 @@ export const invitation = {
     name: "باغ فضل‌اله قاسم‌نژاد",
     address: "شیراز، ویلاشهر پردیس (دریمه)، فرعی ۱۵",
     maps: {
-      google: "https://maps.app.goo.gl/FYSa7uQoukBt4GqD7",
+      google:
+        "https://www.google.com/maps/dir/?api=1&destination=29.597006,52.761721&travelmode=driving",
       balad:
         "https://balad.ir/location?latitude=29.597006&longitude=52.761721&zoom=16.5",
       neshan: "https://neshan.org/maps/@29.597006,52.761721,17.0z",

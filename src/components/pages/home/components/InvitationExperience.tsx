@@ -374,10 +374,20 @@ export function InvitationExperience() {
 
   useEffect(() => {
     if (sequence === "done") return;
-    const previousOverflow = document.body.style.overflow;
+
+    const root = document.documentElement;
+    const previousRootOverflow = root.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+
+    root.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
+    window.scrollTo(0, 0);
+
     return () => {
-      document.body.style.overflow = previousOverflow;
+      root.style.overflow = previousRootOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      root.style.overscrollBehavior = "";
     };
   }, [sequence]);
 
@@ -424,13 +434,12 @@ export function InvitationExperience() {
     });
   }, []);
 
-  const startSequence = () => {
-    if (sequence !== "sealed") return;
-    setSequence("playing");
+  const startSequence = useCallback(() => {
+    setSequence((current) => (current === "sealed" ? "playing" : current));
     setIsAudioPlaying(true);
 
     const videoPlayback = introVideoRef.current?.play();
-    if (videoPlayback) void videoPlayback.catch(() => undefined);
+    if (videoPlayback) void videoPlayback.catch(() => finishSequence());
 
     if (audioRef.current) {
       audioRef.current.volume = 1;
@@ -439,7 +448,14 @@ export function InvitationExperience() {
         void audioPlayback.catch(() => setIsAudioPlaying(false));
       }
     }
-  };
+  }, [finishSequence]);
+
+  useEffect(() => {
+    if (sequence !== "sealed") return;
+
+    const autoStartTimer = window.setTimeout(startSequence, 5_000);
+    return () => window.clearTimeout(autoStartTimer);
+  }, [sequence, startSequence]);
 
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -509,7 +525,7 @@ export function InvitationExperience() {
             <span aria-hidden="true" className={styles.envelopeGlow} />
             <span className={styles.tapPrompt}>
               <i />
-              برای باز کردن لمس کنید
+              <b>برای باز کردن دعوت‌نامه لمس کنید</b>
             </span>
           </button>
 

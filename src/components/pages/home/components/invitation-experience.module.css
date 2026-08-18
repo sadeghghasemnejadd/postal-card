@@ -661,29 +661,59 @@
 
 .tapPrompt {
   position: absolute;
-  bottom: 30%;
+  z-index: 3;
+  bottom: 24%;
   left: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
-  color: rgb(140 100 60 / 75%);
-  font-family: "Cinzel", Georgia, serif;
-  font-size: 11px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
+  gap: 14px;
   transform: translateX(-50%);
-  animation:
-    tap-in 1.2s 0.8s both,
-    tap-pulse 2.4s 1.6s ease-in-out infinite;
+  animation: tap-in 1.1s 0.5s backwards;
 }
 
 .tapPrompt i {
-  width: 10px;
-  height: 10px;
-  border-top: 1.5px solid rgb(140 100 60 / 60%);
-  border-right: 1.5px solid rgb(140 100 60 / 60%);
-  transform: rotate(-45deg);
+  position: relative;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgb(180 140 61 / 55%);
+  border-radius: 50%;
+  place-items: center;
+  background: rgb(249 240 224 / 88%);
+  box-shadow: 0 6px 16px rgb(90 15 27 / 12%);
+}
+
+.tapPrompt i::before {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #a67d2b;
+  content: "";
+}
+
+.tapPrompt i::after {
+  position: absolute;
+  inset: -2px;
+  border: 1px solid rgb(180 140 61 / 65%);
+  border-radius: 50%;
+  content: "";
+  animation: tap-ripple 2.2s ease-out infinite;
+}
+
+.tapPrompt b {
+  padding: 10px 22px;
+  border: 1px solid rgb(180 140 61 / 45%);
+  border-radius: 999px;
+  color: #6c513f;
+  background: rgb(249 240 224 / 94%);
+  box-shadow: 0 8px 20px rgb(90 15 27 / 14%);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  backdrop-filter: blur(3px);
+  animation: tap-pulse 2.6s 1.4s ease-in-out infinite;
 }
 
 .introVideoLayer {
@@ -1015,12 +1045,30 @@
 @keyframes tap-pulse {
   0%,
   100% {
-    opacity: 0.45;
-    letter-spacing: 0.26em;
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgb(90 15 27 / 14%);
   }
+
   50% {
-    opacity: 1;
-    letter-spacing: 0.3em;
+    transform: scale(1.045);
+    box-shadow: 0 10px 26px rgb(90 15 27 / 20%);
+  }
+}
+
+@keyframes tap-ripple {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
   }
 }
 
@@ -1175,7 +1223,9 @@
   .heroLeft,
   .heroRight,
   .timeBlock strong span,
-  .tapPrompt {
+  .tapPrompt,
+  .tapPrompt b,
+  .tapPrompt i::after {
     animation: none;
     transition-duration: 1ms;
   }

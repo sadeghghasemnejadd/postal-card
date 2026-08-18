@@ -55,15 +55,18 @@
 
 .reveal {
   opacity: 0;
-  transform: translateY(40px);
+  filter: blur(7px);
+  transform: translateY(42px) scale(0.982);
   transition:
     opacity 1.4s ease,
+    filter 1.2s ease,
     transform 1.7s cubic-bezier(0.2, 0.75, 0.15, 1);
 }
 
 .revealed {
   opacity: 1;
-  transform: translateY(0);
+  filter: blur(0);
+  transform: translateY(0) scale(1);
 }
 
 .headingRow {
@@ -119,12 +122,14 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  animation: hero-drift 28s ease-in-out infinite alternate;
 }
 
 .heroVeil {
   position: absolute;
   inset: 0;
   background:
+    radial-gradient(circle at 50% 40%, transparent 44%, rgb(30 9 15 / 45%) 100%),
     linear-gradient(180deg, rgb(28 8 13 / 22%) 0%, transparent 30%),
     linear-gradient(180deg, transparent 58%, rgb(39 10 17 / 78%) 100%);
 }
@@ -312,6 +317,24 @@
 
 .timeBlock strong {
   display: block;
+  overflow: hidden;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 45px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.timeBlock span {
+  display: block;
+  margin-top: 8px;
+  color: #b48c3d;
+  font-family: "SacredNumbers", Georgia, serif;
+  font-size: 19px;
+  opacity: 0.85;
+}
+
+.timeBlock strong span {
+  display: block;
   color: transparent;
   background: linear-gradient(
     105deg,
@@ -325,24 +348,15 @@
   );
   background-size: 300% 100%;
   background-clip: text;
-  font-family: "SacredNumbers", Georgia, serif;
-  font-size: 45px;
-  font-weight: 400;
-  line-height: 1.2;
-  animation: candle-shimmer 4.5s ease-in-out infinite;
-}
-
-.timeBlock span {
-  display: block;
-  margin-top: 8px;
-  color: #b48c3d;
-  font-family: "SacredNumbers", Georgia, serif;
-  font-size: 19px;
-  opacity: 0.85;
+  -webkit-background-clip: text;
+  animation:
+    candle-shimmer 4.5s ease-in-out infinite,
+    digit-rise 620ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .separator {
   margin-top: 5px;
+  animation: separator-breathe 2s ease-in-out infinite;
   color: #b48c3d;
   font-family: "SacredNumbers", Georgia, serif;
   font-size: 52px;
@@ -458,11 +472,28 @@
 }
 
 .placeCard h3 {
+  display: flex;
   margin: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: #a67d2b;
   font-family: "SacredBody", Georgia, serif;
   font-size: 20px;
   font-weight: 300;
   line-height: 1.55;
+}
+
+.placeCard h3::before,
+.placeCard h3::after {
+  width: 62px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(180 140 61 / 75%));
+  content: "";
+}
+
+.placeCard h3::after {
+  background: linear-gradient(270deg, transparent, rgb(180 140 61 / 75%));
 }
 
 .placeCard p {
@@ -490,6 +521,7 @@
 }
 
 .mapAppLogo {
+  position: relative;
   display: grid;
   width: 52px;
   height: 52px;
@@ -508,8 +540,31 @@
   object-fit: contain;
 }
 
-.mapApp:hover .mapAppLogo {
-  transform: translateY(-3px);
+.mapAppLogo::after {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgb(180 140 61 / 0%);
+  border-radius: 50%;
+  content: "";
+  transition: border-color 300ms ease;
+}
+
+.mapApp:hover .mapAppLogo,
+.mapApp:focus-visible .mapAppLogo {
+  transform: translateY(-4px);
+}
+
+.mapApp:hover .mapAppLogo::after,
+.mapApp:focus-visible .mapAppLogo::after {
+  border-color: rgb(180 140 61 / 55%);
+}
+
+.mapApp:active .mapAppLogo {
+  transform: scale(0.94);
+}
+
+.mapApp:focus-visible {
+  outline: none;
 }
 
 .mapApp small {
@@ -537,6 +592,7 @@
   z-index: 2;
   inset: 0;
   display: flex;
+  overflow: hidden;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -551,12 +607,34 @@
 }
 
 .envelopeGate > img {
+  position: relative;
+  z-index: 1;
   display: block;
+  animation: envelope-breathe 6s ease-in-out infinite;
   width: 100%;
   max-width: 440px;
   height: auto;
   max-height: 100svh;
   object-fit: contain;
+}
+
+.envelopeGlow {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgb(214 175 96 / 32%) 0%,
+    rgb(214 175 96 / 12%) 44%,
+    rgb(214 175 96 / 0%) 70%
+  );
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: glow-pulse 5s ease-in-out infinite;
 }
 
 .gateHidden {
@@ -621,8 +699,8 @@
 
 .scrollHint {
   position: fixed;
-  z-index: 1000;
-  bottom: 26px;
+  z-index: 999;
+  bottom: 22px;
   left: 50%;
   display: flex;
   flex-direction: column;
@@ -633,12 +711,13 @@
   font-size: 12px;
   pointer-events: none;
   transform: translateX(-50%);
-  animation: hint-in 1s 0.6s both;
-  transition: opacity 500ms ease;
+  animation: hint-in 900ms 0.5s backwards;
+  transition: opacity 450ms ease;
 }
 
 .scrollHint span {
-  padding: 5px 14px;
+  padding: 5px 15px;
+  backdrop-filter: blur(3px);
   border: 1px solid rgb(180 140 61 / 35%);
   border-radius: 999px;
   background: rgb(249 240 224 / 88%);
@@ -691,13 +770,42 @@
   width: 60px;
   height: 60px;
   padding: 0;
-  border: 0;
+  border: 1px solid rgb(205 169 90 / 55%);
   border-radius: 50%;
   place-items: center;
   color: white;
-  background: #5a0f1b;
-  box-shadow: 0 4px 14px rgb(0 0 0 / 18%);
+  background: radial-gradient(circle at 32% 26%, #7d2130 0%, #4d0d18 72%);
+  box-shadow:
+    0 8px 20px rgb(60 10 20 / 30%),
+    inset 0 1px 0 rgb(255 235 190 / 22%);
   cursor: pointer;
+  transition:
+    transform 260ms ease,
+    box-shadow 260ms ease;
+}
+
+.audioButton:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 26px rgb(60 10 20 / 34%),
+    inset 0 1px 0 rgb(255 235 190 / 30%);
+}
+
+.audioButton:active {
+  transform: scale(0.95);
+}
+
+.audioButton::after {
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgb(205 169 90 / 45%);
+  border-radius: 50%;
+  content: "";
+  opacity: 0;
+}
+
+.audioPlaying::after {
+  animation: audio-ring 2.6s ease-out infinite;
 }
 
 .pauseIcon {
@@ -719,6 +827,121 @@
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-left: 16px solid white;
+}
+
+.sparkles {
+  position: fixed;
+  z-index: 900;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sparkles span {
+  position: absolute;
+  bottom: -24px;
+  left: var(--sparkle-left);
+  width: var(--sparkle-size);
+  height: var(--sparkle-size);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 241 205 / 95%), rgb(198 158 78 / 0%) 70%);
+  box-shadow: 0 0 6px rgb(214 175 96 / 55%);
+  opacity: 0;
+  animation: sparkle-rise var(--sparkle-duration) linear var(--sparkle-delay) infinite;
+}
+
+@keyframes sparkle-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.5);
+  }
+
+  14% {
+    opacity: 0.85;
+  }
+
+  72% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--sparkle-drift), -104svh, 0) scale(1.15);
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: scale(1.12) translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes digit-rise {
+  from {
+    opacity: 0.2;
+    transform: translateY(58%) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes separator-breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes envelope-breathe {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.018) rotate(0.45deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+@keyframes audio-ring {
+  0% {
+    opacity: 0.8;
+    transform: scale(0.9);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
 }
 
 @keyframes candle-shimmer {
@@ -810,70 +1033,7 @@
     transform: none;
   }
 
-  .scrollHint {
-  position: fixed;
-  z-index: 1000;
-  bottom: 26px;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
-  color: #8b6e39;
-  font-family: "Vazirmatn", Tahoma, "Segoe UI", Arial, sans-serif;
-  font-size: 12px;
-  pointer-events: none;
-  transform: translateX(-50%);
-  animation: hint-in 1s 0.6s both;
-  transition: opacity 500ms ease;
-}
-
-.scrollHint span {
-  padding: 5px 14px;
-  border: 1px solid rgb(180 140 61 / 35%);
-  border-radius: 999px;
-  background: rgb(249 240 224 / 88%);
-  box-shadow: 0 4px 14px rgb(90 15 27 / 10%);
-}
-
-.scrollHint i {
-  display: block;
-  width: 13px;
-  height: 13px;
-  border-right: 2px solid #a67d2b;
-  border-bottom: 2px solid #a67d2b;
-  transform: rotate(45deg);
-  animation: hint-bounce 1.8s ease-in-out infinite;
-}
-
-.scrollHintHidden {
-  opacity: 0;
-}
-
-@keyframes hint-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 14px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-@keyframes hint-bounce {
-  0%,
-  100% {
-    transform: rotate(45deg) translate(0, 0);
-  }
-
-  50% {
-    transform: rotate(45deg) translate(4px, 4px);
-  }
-}
-
-.audioButton {
+  .audioButton {
     right: 14px;
     bottom: 14px;
     width: 54px;
@@ -937,10 +1097,6 @@
     height: 247px;
   }
 
-  .locationSection {
-    height: 405px;
-    overflow: visible;
-  }
 }
 
 @media (min-width: 1200px) {
@@ -1001,7 +1157,7 @@
   .revealed,
   .heroLeft,
   .heroRight,
-  .timeBlock strong,
+  .timeBlock strong span,
   .tapPrompt {
     animation: none;
     transition-duration: 1ms;
@@ -1010,5 +1166,31 @@
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+.page ::selection {
+  color: #4a2f1b;
+  background: rgb(198 158 78 / 32%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkles,
+  .envelopeGlow {
+    display: none;
+  }
+
+  .heroFilm video,
+  .envelopeGate > img,
+  .timeBlock strong span,
+  .separator,
+  .scrollHint,
+  .scrollHint i,
+  .audioPlaying::after {
+    animation: none;
+  }
+
+  .reveal {
+    filter: none;
   }
 }

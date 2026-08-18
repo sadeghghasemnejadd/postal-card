@@ -49,6 +49,14 @@ const MAP_APPS = [
 
 const PLACES = [invitation.venue, invitation.office] as const;
 
+const SPARKLES = Array.from({ length: 18 }, (_, index) => ({
+  left: (index * 27 + (index % 4) * 7) % 100,
+  delay: ((index * 1.37) % 9).toFixed(2),
+  duration: 12 + ((index * 3) % 8),
+  size: 2 + (index % 3),
+  drift: index % 2 === 0 ? 28 : -24,
+}));
+
 interface CountdownValue {
   days: number;
   hours: number;
@@ -155,6 +163,27 @@ function Reveal({
   );
 }
 
+function Sparkles() {
+  return (
+    <div aria-hidden="true" className={styles.sparkles}>
+      {SPARKLES.map((sparkle, index) => (
+        <span
+          key={index}
+          style={
+            {
+              "--sparkle-left": `${sparkle.left}%`,
+              "--sparkle-delay": `${sparkle.delay}s`,
+              "--sparkle-duration": `${sparkle.duration}s`,
+              "--sparkle-size": `${sparkle.size}px`,
+              "--sparkle-drift": `${sparkle.drift}px`,
+            } as CSSProperties
+          }
+        />
+      ))}
+    </div>
+  );
+}
+
 function SectionHeading({ children }: { children: ReactNode }) {
   return (
     <div className={styles.headingRow}>
@@ -248,7 +277,11 @@ function CountdownSection() {
           <div className={styles.countdownFragment} key={label}>
             {index > 0 && <span className={styles.separator}>:</span>}
             <div className={styles.timeBlock}>
-              <strong>{formatPersianNumber(value, index === 0 ? 1 : 2)}</strong>
+              <strong>
+                <span key={value}>
+                  {formatPersianNumber(value, index === 0 ? 1 : 2)}
+                </span>
+              </strong>
               <span>{label}</span>
             </div>
           </div>
@@ -340,7 +373,7 @@ function LocationSection() {
 export function InvitationExperience() {
   const [sequence, setSequence] = useState<SequenceState>("sealed");
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isHintVisible, setIsHintVisible] = useState(false);
   const invitationScale = useInvitationScale();
   const introVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -364,12 +397,30 @@ export function InvitationExperience() {
   useEffect(() => {
     if (sequence !== "done") return;
 
-    const handleScroll = () => {
-      if (window.scrollY > 40) setHasScrolled(true);
+    const root = document.scrollingElement ?? document.documentElement;
+    let isDismissed = false;
+
+    const update = () => {
+      const isScrollable = root.scrollHeight > root.clientHeight + 60;
+      setIsHintVisible(!isDismissed && isScrollable && root.scrollTop < 24);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const dismiss = () => {
+      isDismissed = true;
+      setIsHintVisible(false);
+    };
+
+    const frame = window.requestAnimationFrame(update);
+    const hideTimer = window.setTimeout(dismiss, 8_000);
+    document.addEventListener("scroll", update, { capture: true, passive: true });
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(hideTimer);
+      document.removeEventListener("scroll", update, { capture: true });
+      window.removeEventListener("resize", update);
+    };
   }, [sequence]);
 
   const finishSequence = useCallback(() => {
@@ -432,10 +483,12 @@ export function InvitationExperience() {
         </div>
       </main>
 
+      {sequence !== "sealed" && <Sparkles />}
+
       {sequence === "done" && (
         <div
           aria-hidden="true"
-          className={`${styles.scrollHint} ${hasScrolled ? styles.scrollHintHidden : ""}`}
+          className={`${styles.scrollHint} ${isHintVisible ? "" : styles.scrollHintHidden}`}
         >
           <span>برای دیدن ادامه اسکرول کنید</span>
           <i />
@@ -460,6 +513,7 @@ export function InvitationExperience() {
               src={ENVELOPE_IMAGE}
               width={941}
             />
+            <span aria-hidden="true" className={styles.envelopeGlow} />
             <span className={styles.tapPrompt}>
               <i />
               برای باز کردن لمس کنید
@@ -490,7 +544,7 @@ export function InvitationExperience() {
       {(sequence === "fading" || sequence === "done") && (
         <button
           aria-label={isAudioPlaying ? "توقف موسیقی پس‌زمینه" : "پخش موسیقی پس‌زمینه"}
-          className={styles.audioButton}
+          className={`${styles.audioButton} ${isAudioPlaying ? styles.audioPlaying : ""}`}
           onClick={toggleAudio}
           type="button"
         >

@@ -12,10 +12,22 @@ export const invitation = {
       "در شبی سرشار از عشق، لبخند، دعا و خاطره‌های ماندگار، در آغاز زندگی مشترکمان کنار ما باشید.",
   },
   venue: {
-    name: "مرکز اسلامی ملویل",
-    address: "۱۱۸ اولد ایست نک رود، ملویل، نیویورک ۱۱۷۴۷",
-    mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=Islamic+Center+of+Melville",
+    label: "باغ",
+    address: "شیراز، ویلاشهر پردیس (دریمه)، فرعی ۱۵، باغ فضل‌اله قاسم‌نژاد",
+    maps: {
+      google: "https://maps.app.goo.gl/FYSa7uQoukBt4GqD7",
+      balad: "https://balad.ir/directions/driving?destination=52.761721,29.597006",
+      neshan: "https://neshan.org/maps/routing/car/destination/29.597006,52.761721",
+    },
+  },
+  office: {
+    label: "محضر",
+    address: "شیراز، معالی‌آباد، بلوار بهشت، نبش کوچه ۷، محضر شماره ۲۲۵",
+    maps: {
+      google: "https://maps.app.goo.gl/NEVBFVCM3VB4KCFv9",
+      balad: "https://balad.ir/directions/driving?destination=52.474722,29.689266",
+      neshan: "https://neshan.org/maps/routing/car/destination/29.689266,52.474722",
+    },
   },
   schedule: [
     { title: "ورود مهمانان", time: "۵ عصر" },

@@ -21,7 +21,7 @@ const INTRO_VIDEO = `${MEDIA_ROOT}/opening-film.mp4`;
 const BACKGROUND_VIDEO = `${MEDIA_ROOT}/hero-swans.mp4`;
 const BACKGROUND_AUDIO = `${MEDIA_ROOT}/background-music.mp3`;
 const ARTBOARD_WIDTH = 450;
-const ARTBOARD_HEIGHT = 2_837;
+const ARTBOARD_HEIGHT = 2_579;
 
 const ASSETS = {
   heroBackdrop: `${IMAGE_ROOT}/hero-paper.png`,
@@ -34,13 +34,20 @@ const ASSETS = {
   headingLeft: `${IMAGE_ROOT}/ornament-left.png`,
   headingRight: `${IMAGE_ROOT}/ornament-right.png`,
   locationDecor: `${IMAGE_ROOT}/location-decor.png`,
-  locationImage: `${IMAGE_ROOT}/venue-illustration.png`,
-  mapFrame: `${IMAGE_ROOT}/map-frame.svg`,
-  sectionTop: `${IMAGE_ROOT}/map-top.png`,
-  sectionBottom: `${IMAGE_ROOT}/map-bottom.png`,
+  mapGoogle: `${IMAGE_ROOT}/map-google.png`,
+  mapBalad: `${IMAGE_ROOT}/map-balad.png`,
+  mapNeshan: `${IMAGE_ROOT}/map-neshan.svg`,
 } as const;
 
 type SequenceState = "sealed" | "playing" | "fading" | "done";
+
+const MAP_APPS = [
+  { key: "google", title: "گوگل مپ", logo: ASSETS.mapGoogle },
+  { key: "neshan", title: "نشان", logo: ASSETS.mapNeshan },
+  { key: "balad", title: "بلد", logo: ASSETS.mapBalad },
+] as const;
+
+const PLACES = [invitation.venue, invitation.office] as const;
 
 interface CountdownValue {
   days: number;
@@ -284,63 +291,49 @@ function ScheduleSection() {
   );
 }
 
+function PlaceCard({ place }: { place: (typeof PLACES)[number] }) {
+  return (
+    <div className={styles.placeCard}>
+      <h3>{place.label}</h3>
+      <p>{place.address}</p>
+      <div className={styles.mapApps}>
+        {MAP_APPS.map((app) => (
+          <a
+            aria-label={`مسیریابی ${place.label} با ${app.title}`}
+            className={styles.mapApp}
+            href={place.maps[app.key]}
+            key={app.key}
+            rel="noreferrer"
+            target="_blank"
+          >
+            <span className={styles.mapAppLogo}>
+              <Image alt="" height={64} src={app.logo} width={64} />
+            </span>
+            <small>{app.title}</small>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function LocationSection() {
   return (
-    <>
-      <section className={`${styles.canvas} ${styles.locationSection}`}>
-        <SectionHeading>نشانی مراسم</SectionHeading>
-        <Image
-          alt=""
-          className={styles.locationDecor}
-          height={120}
-          src={ASSETS.locationDecor}
-          width={384}
-        />
-        <Reveal className={styles.locationCopy}>
-          <h3>{invitation.venue.name}</h3>
-          <p>نشانی: {invitation.venue.address}</p>
-        </Reveal>
-        <Image
-          alt="مرکز اسلامی ملویل"
-          className={styles.locationPhoto}
-          height={1024}
-          src={ASSETS.locationImage}
-          width={1536}
-        />
-      </section>
-
-      <section className={`${styles.canvas} ${styles.mapSection}`}>
-        <Image
-          alt=""
-          className={styles.sectionTop}
-          height={135}
-          src={ASSETS.sectionTop}
-          width={605}
-        />
-        <a
-          aria-label={`نمایش ${invitation.venue.name} در گوگل‌مپ`}
-          className={styles.mapCircle}
-          href={invitation.venue.mapsUrl}
-          rel="noreferrer"
-          target="_blank"
-        >
-          <span aria-hidden="true" className={styles.mapGrid} />
-          <span aria-hidden="true" className={styles.mapPin}>
-            <i />
-          </span>
-          <strong>{invitation.venue.name}</strong>
-          <small>مشاهده در گوگل‌مپ</small>
-          <Image alt="" fill sizes="341px" src={ASSETS.mapFrame} />
-        </a>
-        <Image
-          alt=""
-          className={styles.sectionBottom}
-          height={135}
-          src={ASSETS.sectionBottom}
-          width={605}
-        />
-      </section>
-    </>
+    <section className={`${styles.canvas} ${styles.locationSection}`}>
+      <SectionHeading>نشانی مراسم</SectionHeading>
+      <Image
+        alt=""
+        className={styles.locationDecor}
+        height={120}
+        src={ASSETS.locationDecor}
+        width={384}
+      />
+      <Reveal className={styles.locationCopy}>
+        {PLACES.map((place) => (
+          <PlaceCard key={place.label} place={place} />
+        ))}
+      </Reveal>
+    </section>
   );
 }
 
@@ -428,7 +421,9 @@ export function InvitationExperience() {
       </main>
 
       {sequence !== "done" && (
-        <div className={styles.sequenceLayer}>
+        <div
+          className={`${styles.sequenceLayer} ${sequence === "fading" ? styles.sequenceFading : ""}`}
+        >
           <button
             aria-label="باز کردن دعوت‌نامه"
             className={`${styles.envelopeGate} ${sequence !== "sealed" ? styles.gateHidden : ""}`}
@@ -450,7 +445,7 @@ export function InvitationExperience() {
           </button>
 
           <div
-            className={`${styles.introVideoLayer} ${sequence === "playing" ? styles.videoVisible : ""} ${sequence === "fading" ? styles.videoFading : ""}`}
+            className={`${styles.introVideoLayer} ${sequence !== "sealed" ? styles.videoVisible : ""}`}
           >
             <video
               muted

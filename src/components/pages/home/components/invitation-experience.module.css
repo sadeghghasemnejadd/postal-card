@@ -431,7 +431,7 @@
 }
 
 .locationSection {
-  height: 427px;
+  height: 512px;
 }
 
 .locationDecor {
@@ -447,14 +447,17 @@
 .locationCopy {
   position: absolute;
   z-index: 4;
-  top: 109px;
+  top: 118px;
   left: 35px;
+  display: flex;
   width: 380px;
+  flex-direction: column;
+  gap: 26px;
   color: #6c513f;
   text-align: center;
 }
 
-.locationCopy h3 {
+.placeCard h3 {
   margin: 0;
   font-family: "SacredBody", Georgia, serif;
   font-size: 20px;
@@ -462,133 +465,71 @@
   line-height: 1.55;
 }
 
-.locationCopy p {
-  width: 308px;
-  margin: 3px auto 0;
-  font-size: 17px;
-  line-height: 1.25;
+.placeCard p {
+  width: 318px;
+  margin: 2px auto 0;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
-.locationPhoto {
-  position: absolute;
-  z-index: 2;
-  top: 174px;
-  left: 35px;
-  width: 380px;
-  height: 253px;
-  object-fit: cover;
-}
-
-.mapSection {
-  height: 343px;
-}
-
-.mapCircle {
-  position: absolute;
-  z-index: 2;
-  top: 2px;
-  left: 54px;
-  width: 341px;
-  height: 341px;
+.mapApps {
   display: flex;
+  margin-top: 13px;
+  gap: 22px;
+  justify-content: center;
+}
+
+.mapApp {
+  display: flex;
+  width: 74px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 16px;
+  gap: 6px;
   color: #6c513f;
-  background: #eadcc3;
-  text-align: center;
   text-decoration: none;
 }
 
-.mapGrid {
-  position: absolute;
-  inset: 7px;
-  border-radius: 12px;
-  background:
-    linear-gradient(32deg, transparent 46%, rgb(180 140 61 / 16%) 47% 49%, transparent 50%),
-    linear-gradient(148deg, transparent 46%, rgb(180 140 61 / 13%) 47% 49%, transparent 50%),
-    radial-gradient(circle at 50% 50%, #fffaf0, #eadabb);
-  background-size: 70px 70px, 82px 82px, auto;
-  transition: transform 700ms ease;
-}
-
-.mapCircle:hover .mapGrid {
-  transform: scale(1.05);
-}
-
-.mapPin {
-  position: relative;
-  z-index: 2;
+.mapAppLogo {
   display: grid;
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   place-items: center;
-  border: 1px solid rgb(180 140 61 / 55%);
-  border-radius: 50% 50% 50% 0;
-  background: #5a0f1b;
-  box-shadow: 0 10px 25px rgb(90 15 27 / 20%);
-  transform: rotate(-45deg);
-}
-
-.mapPin i {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #f9f0e0;
+  overflow: hidden;
+  border: 1px solid rgb(180 140 61 / 45%);
   border-radius: 50%;
+  background: #fffaf0;
+  box-shadow: 0 4px 12px rgb(90 15 27 / 10%);
+  transition: transform 300ms ease;
 }
 
-.mapCircle strong,
-.mapCircle small {
-  position: relative;
-  z-index: 2;
+.mapAppLogo img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
 }
 
-.mapCircle strong {
-  margin-top: 24px;
-  font-family: "SacredNumbers", Georgia, serif;
-  font-size: 18px;
-  font-weight: 400;
+.mapApp:hover .mapAppLogo {
+  transform: translateY(-3px);
 }
 
-.mapCircle small {
-  margin-top: 7px;
+.mapApp small {
   color: #a67d2b;
-  font-family: "SacredUi", Arial, sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.mapCircle > img {
-  z-index: 3;
-  pointer-events: none;
-}
-
-.sectionTop,
-.sectionBottom {
-  position: absolute;
-  z-index: 5;
-  left: 130px;
-  width: 190px;
-  height: 42px;
-  object-fit: fill;
-}
-
-.sectionTop {
-  top: -26px;
-}
-
-.sectionBottom {
-  bottom: -27px;
+  font-size: 12px;
+  line-height: 1;
 }
 
 .sequenceLayer {
   position: fixed;
   z-index: 9999;
   inset: 0;
+  background: #f9f0e0;
+  opacity: 1;
   pointer-events: none;
+  transition: opacity 1.4s ease;
+}
+
+.sequenceFading {
+  opacity: 0;
 }
 
 .envelopeGate {
@@ -676,12 +617,6 @@
   z-index: 3;
   opacity: 1;
   pointer-events: auto;
-}
-
-.videoFading {
-  z-index: 3;
-  opacity: 0;
-  transition-duration: 1.4s;
 }
 
 .audioButton {

@@ -30,11 +30,8 @@ export const invitation = {
     },
   },
   schedule: [
-    { title: "ورود مهمانان", time: "۵ عصر" },
-    { title: "مراسم عقد", time: "۶ عصر" },
-    { title: "پذیرایی و نوشیدنی", time: "۷ شب" },
-    { title: "صرف شام", time: "۸ شب" },
-    { title: "جشن و پایکوبی", time: "۹ شب" },
+    { title: "مراسم عقد در محضر", time: "۴ تا ۶" },
+    { title: "ادامه مراسم در باغ تا پاسی از شب", time: "۸ شب" },
   ],
 } as const;
 

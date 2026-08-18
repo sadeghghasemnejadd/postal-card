@@ -21,7 +21,7 @@ const INTRO_VIDEO = `${MEDIA_ROOT}/opening-film.mp4`;
 const BACKGROUND_VIDEO = `${MEDIA_ROOT}/hero-swans.mp4`;
 const BACKGROUND_AUDIO = `${MEDIA_ROOT}/background-music.mp3`;
 const ARTBOARD_WIDTH = 450;
-const ARTBOARD_HEIGHT = 2_579;
+const ARTBOARD_HEIGHT = 2_371;
 
 const ASSETS = {
   heroBackdrop: `${IMAGE_ROOT}/hero-paper.png`,
@@ -340,6 +340,7 @@ function LocationSection() {
 export function InvitationExperience() {
   const [sequence, setSequence] = useState<SequenceState>("sealed");
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const invitationScale = useInvitationScale();
   const introVideoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -359,6 +360,17 @@ export function InvitationExperience() {
       if (fadeTimerRef.current) window.clearTimeout(fadeTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (sequence !== "done") return;
+
+    const handleScroll = () => {
+      if (window.scrollY > 40) setHasScrolled(true);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [sequence]);
 
   const finishSequence = useCallback(() => {
     setSequence((current) => {
@@ -419,6 +431,16 @@ export function InvitationExperience() {
           <LocationSection />
         </div>
       </main>
+
+      {sequence === "done" && (
+        <div
+          aria-hidden="true"
+          className={`${styles.scrollHint} ${hasScrolled ? styles.scrollHintHidden : ""}`}
+        >
+          <span>برای دیدن ادامه اسکرول کنید</span>
+          <i />
+        </div>
+      )}
 
       {sequence !== "done" && (
         <div
